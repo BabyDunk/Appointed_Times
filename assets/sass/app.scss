@@ -1,0 +1,31 @@
+
+#CMLW-appointTimes{
+  padding:21px;
+
+  h1{
+
+  }
+
+  p{
+
+  }
+
+  #CMLW-ap-layout{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: end;
+
+    justify-content: end;
+
+    .CMLW-ap-Title{
+      justify-content: right;
+      flex-basis: 70%;
+    }
+
+    .CMLW-ap-Date{
+      justify-self: left;
+      flex-basis: 28%;
+    }
+  }
+}
+
