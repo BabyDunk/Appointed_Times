@@ -1,3 +1,4 @@
+'use strict';
 var ajaxurl = window.location.origin+'/wp-admin/admin-ajax.php?';
 const CMLW_Appointed_Times = {};
 CMLW_Appointed_Times.getData = document.querySelectorAll('.CMLW-ap-Title');
@@ -10,31 +11,86 @@ CMLW_Appointed_Times.gatherDates = {
 };
 
 
-
-
-
-ajaxConnectionData('action=CMLW_ajaxGetObj', 'get', '',  function (response) {
-	CMLW_Appointed_Times.gatherDates.yearly_dates = [];
-	CMLW_Appointed_Times.gatherDates = JSON.parse(response);
-	
-	if (CMLW_Appointed_Times.gatherDates.year_com === CMLW_Appointed_Times.date.getFullYear() && CMLW_Appointed_Times.gatherDates.yearly_dates.length > 0) {
-		CMLW_buildDates(CMLW_Appointed_Times.gatherDates);
-	}else{
-		CMLW_getYearlyDates();
-		ajaxConnectionData('action=CMLW_ajaxGetObj', 'get', '', function (response) {
-			CMLW_Appointed_Times.gatherDates.yearly_dates = [];
-			CMLW_Appointed_Times.gatherDates = JSON.parse(response);
+window.onload = function(){
+	CMLW_ajaxConnectionData('action=CMLW_ajaxGetObj', 'get', '',  function (response) {
+		CMLW_Appointed_Times.gatherDates.yearly_dates = [];
+		CMLW_Appointed_Times.gatherDates = JSON.parse(response);
+		
+		if (CMLW_Appointed_Times.gatherDates.year_com === CMLW_Appointed_Times.date.getFullYear() && CMLW_Appointed_Times.gatherDates.yearly_dates.length > 0) {
 			CMLW_buildDates(CMLW_Appointed_Times.gatherDates);
-		});
-	}
+		}else{
+			CMLW_buildDateFromHebcal()
+		}
+		
+	});
+};
+
+
+
+
+
+function CMLW_buildDateFromHebcal() {
+	let CMLW_loop;
+	CMLW_Appointed_Times.gatherDates.yearly_dates = [];
+	CMLW_Appointed_Times.gatherDates.year_com = CMLW_Appointed_Times.date.getFullYear();
 	
-});
-
-
-
-
-
-
+	let x = 0;
+	let loopHebDates = setTimeout(loopingHebDate, 1);
+	
+	function loopingHebDate() {
+		CMLW_loop = CMLW_Appointed_Times.getData[x];
+		let CMLW_dayCount = CMLW_loop.dataset.apDayCount;
+		if (CMLW_loop.dataset.apDate) {
+			CMLW_loop = CMLW_loop.dataset.apDate.split(' ');
+			CMLW_getGregToHebDates(
+				CMLW_Appointed_Times.date.getFullYear(),
+				(CMLW_Appointed_Times.date.getMonth() + 1),
+				CMLW_Appointed_Times.date.getDate(),
+				'greg'
+			).then(
+				function (resolve) {
+					return CMLW_getGregToHebDates(resolve.hy, CMLW_loop[1], CMLW_loop[0], 'heb')
+				}, CMLW_handleError).then(function (resolved) {
+				
+				if (resolved.gy !== CMLW_Appointed_Times.date.getFullYear()) {
+					
+					return CMLW_getGregToHebDates((resolved.hy + 1), CMLW_loop[1], CMLW_loop[0], 'heb');
+					
+				} else {
+					CMLW_Appointed_Times.gatherDates.yearly_dates.push({
+						"hebDate": CMLW_loop[0] + ' ' + CMLW_loop[1],
+						"hebDayCount": CMLW_dayCount,
+						"hebObj": resolved
+					});
+				}
+				
+			}, CMLW_handleError).then(function (resolved3) {
+				if (resolved3) {
+					CMLW_Appointed_Times.gatherDates.yearly_dates.push({
+						"hebDate": CMLW_loop[0] + ' ' + CMLW_loop[1],
+						"hebDayCount": CMLW_dayCount,
+						"hebObj": resolved3
+					});
+					
+				}
+				
+				loopHebDates = setTimeout(loopingHebDate, 400);
+				if ((x + 1) >= CMLW_Appointed_Times.getData.length) {
+					clearTimeout(loopHebDates);
+					x = 0;
+					CMLW_ajaxConnectionData(
+						'action=CMLW_ajaxUploadedObj',
+						'post',
+						'data=' + JSON.stringify(CMLW_Appointed_Times.gatherDates) + '&_ajax_nonce=' + document.getElementById('CMLW_ap_Nonce').value);
+					CMLW_buildDates(CMLW_Appointed_Times.gatherDates)
+				}
+				x++;
+				
+			}, CMLW_handleError);
+		}
+		
+	}
+}
 function CMLW_buildDates(obj){
 	if(obj.yearly_dates.length > 0) {
 		for (let x = 0; x < obj.yearly_dates.length; x++) {
@@ -66,48 +122,42 @@ function CMLW_buildDates(obj){
 		}
 	}
 }
-function CMLW_getYearlyDates() {
-	gregToHebrewYear(CMLW_Appointed_Times.date.getFullYear(), (CMLW_Appointed_Times.date.getMonth() + 1), CMLW_Appointed_Times.date.getDate(), function (response) {
-		if (response) {
-			CMLW_Appointed_Times.hebrewYear = response.hy;
-			let CMLW_loop;
-			CMLW_Appointed_Times.gatherDates.yearly_dates = [];
-			CMLW_Appointed_Times.gatherDates.year_com = CMLW_Appointed_Times.date.getFullYear();
-			
-			for (let x = 0; x < CMLW_Appointed_Times.getData.length; x++) {
-				CMLW_loop = CMLW_Appointed_Times.getData[x];
-				let CMLW_dayCount = CMLW_loop.dataset.apDayCount;
-				if (CMLW_loop.dataset.apDate) {
-					CMLW_loop = CMLW_loop.dataset.apDate.split(' ');
-					hebrewToGreg(response.hy, CMLW_loop[1], CMLW_loop[0], function (response) {
-						let hebToGreg = response;
-						if (hebToGreg.gy !== CMLW_Appointed_Times.date.getFullYear()) {
-							hebToGreg = {};
-							hebrewToGreg((CMLW_Appointed_Times.hebrewYear + 1), CMLW_loop[1], CMLW_loop[0], function (response) {
-								hebToGreg = response;
-								
-							});
-						}
-						
-						// Collect dates
-						CMLW_Appointed_Times.gatherDates.yearly_dates.push({
-							"hebDate": CMLW_loop[0] + ' ' + CMLW_loop[1],
-							"hebDayCount": CMLW_dayCount,
-							"hebObj": hebToGreg
-						});
-						
-					});
+function CMLW_getGregToHebDates(year,month,day, dType){
+	return new Promise(function (resolve, reject) {
+		let buildUrl;
+		if(dType === 'heb'){
+			month = month[0].toUpperCase()+month.slice(1);
+			buildUrl = 'https://www.hebcal.com/converter/?cfg=json'+
+			           '&hy='+year+
+			           '&hm='+month+
+			           '&hd='+day+
+			           '&h2g=1';
+		}else if (dType === 'greg'){
+			buildUrl = 'https://www.hebcal.com/converter/?cfg=json&'+
+			           'gy='+year+
+			           '&gm='+month+
+			           '&gd='+day+
+			           '&g2h=1&gs=on';
+		}
+		
+		let aJax = new XMLHttpRequest();
+		aJax.open('GET', buildUrl, true);
+		aJax.onreadystatechange = function () {
+			if(aJax.readyState === 4){
+				if(aJax.status === 200){
+					resolve(JSON.parse(aJax.responseText));
+				}else{
+					reject(aJax);
 				}
 			}
-			
-			ajaxConnectionData(
-				'action=CMLW_ajaxUploadedObj',
-				'post',
-				'data='+JSON.stringify(CMLW_Appointed_Times.gatherDates)+'&_ajax_nonce='+document.getElementById('CMLW_ap_Nonce').value);
-		}
+		};
+		aJax.send();
 	});
 }
-function ajaxConnectionData(url, method, data='', callback=null){
+function CMLW_handleError(failure){
+	console.log('Bad News - Error Response: '+failure.status)
+}
+function CMLW_ajaxConnectionData(url, method, data='', callback=null){
 	url = ajaxurl+url;
 	let ajax = new XMLHttpRequest();
 	
@@ -122,28 +172,4 @@ function ajaxConnectionData(url, method, data='', callback=null){
 	}
 	ajax.send(data);
 	
-}
-function gregToHebrewYear(year,month,day,callback) {
-	let ajax = new XMLHttpRequest();
-	let Url = 'https://www.hebcal.com/converter/?cfg=json&gy='+year+'&gm='+month+'&gd='+day+'&g2h=1&gs=on';
-	ajax.onreadystatechange = function(){
-		if(ajax.readyState === 4 && ajax.status === 200){
-			callback(JSON.parse(ajax.responseText));
-		}
-	};
-	ajax.open('GET', Url, false);
-	ajax.send();
-}
-function hebrewToGreg(year,month,day,callback) {
-	month = month[0].toUpperCase()+month.slice(1);
-	let ajax = new XMLHttpRequest();
-	let Url = 'https://www.hebcal.com/converter/?cfg=json&hy='+year+'&hm='+month+'&hd='+day+'&h2g=1';
-	
-	ajax.onreadystatechange = function(){
-		if(ajax.readyState === 4 && ajax.status === 200){
-			callback(JSON.parse(ajax.responseText));
-		}
-	};
-	ajax.open('GET', Url, false);
-	ajax.send();
 }
