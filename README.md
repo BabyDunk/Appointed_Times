@@ -7,4 +7,4 @@ This plugin makes use of the Hebcal API, so kind regards to their hard work.
 
 
 # Known Issues
-1; Need to change synchronous ajax to asynchronous
+None at the moment.
