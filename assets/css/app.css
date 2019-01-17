@@ -1,5 +1,8 @@
 #CMLW-appointTimes {
   padding: 21px; }
+  @media (max-width: 650px) {
+    #CMLW-appointTimes h1 {
+      font-size: 1.6em; } }
   #CMLW-appointTimes #CMLW-ap-layout {
     display: flex;
     flex-wrap: wrap;
@@ -11,5 +14,9 @@
     #CMLW-appointTimes #CMLW-ap-layout .CMLW-ap-Date {
       justify-self: left;
       flex-basis: 28%; }
+  @media (max-width: 650px) {
+    #CMLW-appointTimes {
+      font-size: .6em;
+      padding: 7px; } }
 
 /*# sourceMappingURL=app.css.map */

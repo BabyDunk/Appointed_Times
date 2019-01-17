@@ -3,7 +3,9 @@
   padding:21px;
 
   h1{
-
+    @media (max-width:650px){
+      font-size:1.6em;
+    }
   }
 
   p{
@@ -26,6 +28,11 @@
       justify-self: left;
       flex-basis: 28%;
     }
+  }
+
+  @media (max-width:650px){
+    font-size:.6em;
+    padding:7px;
   }
 }
 

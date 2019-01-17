@@ -8,28 +8,31 @@
 	
 	
 	function CMLW_makeShortCode(){
-		$html = '<div id="CMLW-appointTimes">';
-		$html .= '</h1>Yhwh Appointed Times for <span id="CMLW-Title-Year">2018</span></h1>';
-		$html .= '</p>A new day begins at sunset and not at midnight as we are used to with the gregorian calender</p>';
-		$html .= '</p>So a biblical day stretches over 2 gregorian days. from sunset to sunset</p>';
-		$html .= '<div id="CMLW-ap-layout">';
+		?>
 		
-		$html .= '<div class="CMLW-ap-Title" data-ap-date="14 Nisan" data-ap-day-count="1">Passover: </div><div class="CMLW-ap-Date">14 Nisan</div>';
-		$html .= '<div class="CMLW-ap-Title" data-ap-date="15 Nisan" data-ap-day-count="7">Feast of Unleavened Breads: </div><div class="CMLW-ap-Date">15-22 Nisan</div>';
-		$html .= '<div class="CMLW-ap-Title" data-ap-date="16 Nisan" data-ap-day-count="1">Feast of First Fruits: </div><div class="CMLW-ap-Date">16 Nisan</div>';
-		$html .= '<div class="CMLW-ap-Title" data-ap-date="16 Nisan" data-ap-day-count="50">Counting the Omer: </div><div class="CMLW-ap-Date">17 Nisan</div>';
-		$html .= '<div class="CMLW-ap-Title" data-ap-date="6 Sivan" data-ap-day-count="1">Feast of Weeks (Pentecost):</div><div class="CMLW-ap-Date">6 Sivan</div>';
-		$html .= '<div class="CMLW-ap-Title" data-ap-date="1 tishrei" data-ap-day-count="2">Feast of Trumpets(Yom Teruah):</div><div class="CMLW-ap-Date">1 Tishrei</div>';
-		$html .= '<div class="CMLW-ap-Title" data-ap-date="10 tishrei" data-ap-day-count="1">Day of Atonement(Yom Kippur): </div><div class="CMLW-ap-Date">10 Tishrei</div>';
-		$html .= '<div class="CMLW-ap-Title" data-ap-date="15 tishrei" data-ap-day-count="7">Feast of Tabernacles (Sukkot):</div><div class="CMLW-ap-Date">15-22 Tishrei</div>';
-		$html .= '<div class="CMLW-ap-Title" data-ap-date="25 kislev" data-ap-day-count="1">Dedication (Chanukah): </div><div class="CMLW-ap-Date">25 Kislev</div>';
-
-		$html .= '</div>';// CMLW-ap-layout End
-		$html .= '</div>';// CMLW-appointTimes End
-		$html .= '<input type="hidden" id="CMLW_ap_Nonce" value="'.wp_create_nonce('CMLW_ap_Nonce').'">';// The Nonce
+		<div id="CMLW-appointTimes">
+		<h1><?php echo empty(get_option('CMLW_ap_title')) ? 'Yhwh Appointed Times' : esc_attr( get_option('CMLW_ap_title') ); ?> for <span id="CMLW-Title-Year">2018</span></h1>
+		<p><?php echo empty(get_option('CMLW_ap_first_par')) ? 'A new day begins at sunset and not at midnight as we are used to with the gregorian calender' : esc_attr( get_option('CMLW_ap_first_par') ); ?></p>
+		<p><?php echo empty(get_option('CMLW_ap_second_par')) ? 'So a biblical day stretches over 2 gregorian days. from sunset to sunset' : esc_attr( get_option('CMLW_ap_second_par') ); ?></p>
+		<div id="CMLW-ap-layout">
 		
-		return $html;
-	}
+		<div class="CMLW-ap-Title" data-ap-date="14 Nisan" data-ap-day-count="1"><?php echo empty(get_option('CMLW_ap_passover')) ? 'Passover' : esc_attr( get_option('CMLW_ap_passover') ); ?>: </div><div class="CMLW-ap-Date">14 Nisan</div>
+		<div class="CMLW-ap-Title" data-ap-date="15 Nisan" data-ap-day-count="7"><?php echo empty(get_option('CMLW_ap_unleaven')) ? 'Feast of Unleavened Bread' : esc_attr( get_option('CMLW_ap_unleaven') ); ?>: </div><div class="CMLW-ap-Date">15-22 Nisan</div>
+		<div class="CMLW-ap-Title" data-ap-date="16 Nisan" data-ap-day-count="1"><?php echo empty(get_option('CMLW_ap_firstfruits')) ? 'Feast of First Fruits' : esc_attr( get_option('CMLW_ap_firstfruits') ); ?>: </div><div class="CMLW-ap-Date">16 Nisan</div>
+		<div class="CMLW-ap-Title" data-ap-date="16 Nisan" data-ap-day-count="50"><?php echo empty(get_option('CMLW_ap_omer')) ? 'Counting the Omer' : esc_attr( get_option('CMLW_ap_omer') ); ?>: </div><div class="CMLW-ap-Date">17 Nisan</div>
+		<div class="CMLW-ap-Title" data-ap-date="6 Sivan" data-ap-day-count="1"><?php echo empty(get_option('CMLW_ap_shavuot')) ? 'Feast of Weeks (Shavuot)' : esc_attr( get_option('CMLW_ap_shavuot') ); ?>:</div><div class="CMLW-ap-Date">6 Sivan</div>
+		<div class="CMLW-ap-Title" data-ap-date="1 tishrei" data-ap-day-count="2"><?php echo empty(get_option('CMLW_ap_teruah')) ? 'Feast of Trumpets(Yom Teruah)' : esc_attr( get_option('CMLW_ap_teruah') ); ?>:</div><div class="CMLW-ap-Date">1 Tishrei</div>
+		<div class="CMLW-ap-Title" data-ap-date="10 tishrei" data-ap-day-count="1"><?php echo empty(get_option('CMLW_ap_kippur')) ? 'Day of Atonement(Yom Kippur)' : esc_attr( get_option('CMLW_ap_kippur') ); ?>: </div><div class="CMLW-ap-Date">10 Tishrei</div>
+		<div class="CMLW-ap-Title" data-ap-date="15 tishrei" data-ap-day-count="7"><?php echo empty(get_option('CMLW_ap_sukkot')) ? 'Feast of Tabernacles (Sukkot)' : esc_attr( get_option('CMLW_ap_sukkot') ); ?>:</div><div class="CMLW-ap-Date">15-22 Tishrei</div>
+		<div class="CMLW-ap-Title" data-ap-date="25 kislev" data-ap-day-count="1"><?php echo empty(get_option('CMLW_ap_chanukah')) ? 'Dedication (Chanukah)' : esc_attr( get_option('CMLW_ap_chanukah') ); ?>: </div><div class="CMLW-ap-Date">25 Kislev</div>
+		
+		</div><!-- CMLW-ap-layout End-->
+		</div><!--CMLW-appointTimes End-->
+		<input type="hidden" id="CMLW_ap_Nonce" value="<?php echo wp_create_nonce('CMLW_ap_Nonce') ?>">
+		
+		<?php }
+		
+	
 	
 	
 	/**

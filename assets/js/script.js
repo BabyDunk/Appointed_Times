@@ -12,6 +12,7 @@ CMLW_Appointed_Times.gatherDates = {
 
 
 window.onload = function(){
+	console.log('here')
 	CMLW_ajaxConnectionData('action=CMLW_ajaxGetObj', 'get', '',  function (response) {
 		CMLW_Appointed_Times.gatherDates.yearly_dates = [];
 		CMLW_Appointed_Times.gatherDates = JSON.parse(response);
@@ -162,6 +163,7 @@ function CMLW_ajaxConnectionData(url, method, data='', callback=null){
 	let ajax = new XMLHttpRequest();
 	
 	ajax.onreadystatechange = function(){
+		console.log(ajax)
 		if(callback !== null) {
 			if (ajax.readyState === 4 && ajax.status === 200) callback(ajax.responseText);
 		}

@@ -33,6 +33,10 @@
 	
 	
 	// Admin Hooks
+	if(is_admin()) {
+		add_action( 'admin_menu' , 'CMLW_loadAdministratorPage' );
+		add_action( 'admin_init' , 'CMLW_registerOptions' );
+	}
 	
 	// Ajax
 	add_action('wp_ajax_nopriv_CMLW_ajaxUploadedObj', 'CMLW_ajaxUploadedObj');
