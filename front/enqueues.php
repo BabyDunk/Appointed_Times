@@ -17,6 +17,19 @@
 		);
 		wp_enqueue_script('CMLW_JAVASCRIPT');
 		
+		
+		wp_register_script(
+			'CMLW_HebCalenderJAVASCRIPT',
+			plugins_url('assets/js/hebCalender.js', CMLW_AP_URL),
+			'',
+			'1.0',
+			true
+		);
+		wp_enqueue_script('CMLW_HebCalenderJAVASCRIPT');
+		
+		
+		
+		
 		/*
 		 * Hebrew Calender Script
 		 *

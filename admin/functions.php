@@ -129,6 +129,11 @@
 					<th scope="row">Hanukkah</th>
 					<td><input type="text" name="CMLW_ap_chanukah" value="<?php echo esc_attr( get_option('CMLW_ap_chanukah') ); ?>" /></td>
 				</tr>
+    
+				<tr valign="top">
+					<th scope="row">Purim</th>
+					<td><input type="text" name="CMLW_ap_purim" value="<?php echo esc_attr( get_option('CMLW_ap_purim') ); ?>" /></td>
+				</tr>
 			</table>
 		
 		<?php submit_button();; ?>

@@ -10,25 +10,25 @@ CMLW_Appointed_Times.gatherDates = {
 	"yearly_dates": []
 };
 
+CMLW_Appointed_Times.date.setFullYear(2020);
 
 window.onload = function(){
-	console.log('here')
 	CMLW_ajaxConnectionData('action=CMLW_ajaxGetObj', 'get', '',  function (response) {
+		
 		CMLW_Appointed_Times.gatherDates.yearly_dates = [];
 		CMLW_Appointed_Times.gatherDates = JSON.parse(response);
 		
 		if (CMLW_Appointed_Times.gatherDates.year_com === CMLW_Appointed_Times.date.getFullYear() && CMLW_Appointed_Times.gatherDates.yearly_dates.length > 0) {
+			
+			console.log('build from databvase')
 			CMLW_buildDates(CMLW_Appointed_Times.gatherDates);
 		}else{
+			console.log('build from hebcal')
 			CMLW_buildDateFromHebcal()
 		}
 		
 	});
 };
-
-
-
-
 
 function CMLW_buildDateFromHebcal() {
 	let CMLW_loop;
@@ -163,7 +163,7 @@ function CMLW_ajaxConnectionData(url, method, data='', callback=null){
 	let ajax = new XMLHttpRequest();
 	
 	ajax.onreadystatechange = function(){
-		console.log(ajax)
+		console.log(ajax);
 		if(callback !== null) {
 			if (ajax.readyState === 4 && ajax.status === 200) callback(ajax.responseText);
 		}

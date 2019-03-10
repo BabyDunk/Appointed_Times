@@ -25,6 +25,7 @@
 		<div class="CMLW-ap-Title" data-ap-date="10 tishrei" data-ap-day-count="1"><?php echo empty(get_option('CMLW_ap_kippur')) ? 'Day of Atonement(Yom Kippur)' : esc_attr( get_option('CMLW_ap_kippur') ); ?>: </div><div class="CMLW-ap-Date">10 Tishrei</div>
 		<div class="CMLW-ap-Title" data-ap-date="15 tishrei" data-ap-day-count="7"><?php echo empty(get_option('CMLW_ap_sukkot')) ? 'Feast of Tabernacles (Sukkot)' : esc_attr( get_option('CMLW_ap_sukkot') ); ?>:</div><div class="CMLW-ap-Date">15-22 Tishrei</div>
 		<div class="CMLW-ap-Title" data-ap-date="25 kislev" data-ap-day-count="1"><?php echo empty(get_option('CMLW_ap_chanukah')) ? 'Dedication (Chanukah)' : esc_attr( get_option('CMLW_ap_chanukah') ); ?>: </div><div class="CMLW-ap-Date">25 Kislev</div>
+		<div class="CMLW-ap-Title" data-ap-date="14 adar" data-ap-day-count="1"><?php echo empty(get_option('CMLW_ap_purim')) ? 'Purim' : esc_attr( get_option('CMLW_ap_purim') ); ?>: </div><div class="CMLW-ap-Date">14 adar</div>
 		
 		</div><!-- CMLW-ap-layout End-->
 		</div><!--CMLW-appointTimes End-->
