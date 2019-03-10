@@ -10,7 +10,7 @@ CMLW_Appointed_Times.gatherDates = {
 	"yearly_dates": []
 };
 
-CMLW_Appointed_Times.date.setFullYear(2020);
+//CMLW_Appointed_Times.date.setFullYear(2020);
 
 window.onload = function(){
 	CMLW_ajaxConnectionData('action=CMLW_ajaxGetObj', 'get', '',  function (response) {
