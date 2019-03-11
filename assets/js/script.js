@@ -72,7 +72,7 @@ function CMLW_buildDateFromHebcal() {
 					});
 					
 				}
-				console.log(CMLW_Appointed_Times.gatherDates.yearly_dates);
+			
 				loopHebDates = setTimeout(loopingHebDate, 400);
 				if ((x + 1) >= CMLW_Appointed_Times.getData.length) {
 					clearTimeout(loopHebDates);
@@ -135,7 +135,6 @@ function CMLW_getGregToHebDates(year,month,day, dType){
 				}
 				
 			}
-			console.log(month);
 			
 			month = month[0].toUpperCase()+month.slice(1);
 			buildUrl = 'https://www.hebcal.com/converter/?cfg=json'+
