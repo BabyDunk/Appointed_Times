@@ -10,7 +10,7 @@ CMLW_Appointed_Times.gatherDates = {
 	"yearly_dates": []
 };
 
-//CMLW_Appointed_Times.date.setFullYear(2020);
+ //CMLW_Appointed_Times.date.setFullYear(2020);
 
 window.onload = function(){
 	CMLW_ajaxConnectionData('action=CMLW_ajaxGetObj', 'get', '',  function (response) {
@@ -19,11 +19,8 @@ window.onload = function(){
 		CMLW_Appointed_Times.gatherDates = JSON.parse(response);
 		
 		if (CMLW_Appointed_Times.gatherDates.year_com === CMLW_Appointed_Times.date.getFullYear() && CMLW_Appointed_Times.gatherDates.yearly_dates.length > 0) {
-			
-			console.log('build from databvase')
 			CMLW_buildDates(CMLW_Appointed_Times.gatherDates);
 		}else{
-			console.log('build from hebcal')
 			CMLW_buildDateFromHebcal()
 		}
 		
@@ -43,6 +40,7 @@ function CMLW_buildDateFromHebcal() {
 		let CMLW_dayCount = CMLW_loop.dataset.apDayCount;
 		if (CMLW_loop.dataset.apDate) {
 			CMLW_loop = CMLW_loop.dataset.apDate.split(' ');
+			
 			CMLW_getGregToHebDates(
 				CMLW_Appointed_Times.date.getFullYear(),
 				(CMLW_Appointed_Times.date.getMonth() + 1),
@@ -74,7 +72,7 @@ function CMLW_buildDateFromHebcal() {
 					});
 					
 				}
-				
+				console.log(CMLW_Appointed_Times.gatherDates.yearly_dates);
 				loopHebDates = setTimeout(loopingHebDate, 400);
 				if ((x + 1) >= CMLW_Appointed_Times.getData.length) {
 					clearTimeout(loopHebDates);
@@ -127,6 +125,18 @@ function CMLW_getGregToHebDates(year,month,day, dType){
 	return new Promise(function (resolve, reject) {
 		let buildUrl;
 		if(dType === 'heb'){
+			
+			if(month === 'Adar') {
+				
+				if(year%4 !== 0 ){
+					month = 'Adar2';
+				}else{
+					month = 'Adar1';
+				}
+				
+			}
+			console.log(month);
+			
 			month = month[0].toUpperCase()+month.slice(1);
 			buildUrl = 'https://www.hebcal.com/converter/?cfg=json'+
 			           '&hy='+year+
@@ -163,7 +173,6 @@ function CMLW_ajaxConnectionData(url, method, data='', callback=null){
 	let ajax = new XMLHttpRequest();
 	
 	ajax.onreadystatechange = function(){
-		console.log(ajax);
 		if(callback !== null) {
 			if (ajax.readyState === 4 && ajax.status === 200) callback(ajax.responseText);
 		}

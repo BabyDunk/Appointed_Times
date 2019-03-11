@@ -17,31 +17,6 @@
 		);
 		wp_enqueue_script('CMLW_JAVASCRIPT');
 		
-		
-		wp_register_script(
-			'CMLW_HebCalenderJAVASCRIPT',
-			plugins_url('assets/js/hebCalender.js', CMLW_AP_URL),
-			'',
-			'1.0',
-			true
-		);
-		wp_enqueue_script('CMLW_HebCalenderJAVASCRIPT');
-		
-		
-		
-		
-		/*
-		 * Hebrew Calender Script
-		 *
-		 * wp_register_script(
-			'CMLW_HEBCAL_GREG_TO_HEBREW',
-			plugins_url('assets/lib/hebcal-js-master/client/hebcal.js', CMLW_AP_URL),
-			'',
-			'1.0',
-			false
-			);
-		wp_enqueue_script('CMLW_HEBCAL_GREG_TO_HEBREW');*/
-		
 	}
 	
 	function CMLW_load_styles_enqueues(){
