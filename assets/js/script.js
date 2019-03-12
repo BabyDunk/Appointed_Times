@@ -1,7 +1,7 @@
 'use strict';
 var ajaxurl = window.location.origin+'/wp-admin/admin-ajax.php?';
 const CMLW_Appointed_Times = {};
-CMLW_Appointed_Times.getData = document.querySelectorAll('.CMLW-ap-Title');
+CMLW_Appointed_Times.getData = document.querySelectorAll('.CMLW-ap-Title') ? document.querySelectorAll('.CMLW-ap-Title') : '';
 CMLW_Appointed_Times.monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 CMLW_Appointed_Times.date = new Date();
 CMLW_Appointed_Times.hebrewYear = 0;
@@ -10,7 +10,7 @@ CMLW_Appointed_Times.gatherDates = {
 	"yearly_dates": []
 };
 
- //CMLW_Appointed_Times.date.setFullYear(2020);
+//CMLW_Appointed_Times.date.setFullYear(2020);
 
 window.onload = function(){
 	CMLW_ajaxConnectionData('action=CMLW_ajaxGetObj', 'get', '',  function (response) {
@@ -72,7 +72,7 @@ function CMLW_buildDateFromHebcal() {
 					});
 					
 				}
-			
+				
 				loopHebDates = setTimeout(loopingHebDate, 400);
 				if ((x + 1) >= CMLW_Appointed_Times.getData.length) {
 					clearTimeout(loopHebDates);
@@ -110,7 +110,12 @@ function CMLW_buildDates(obj){
 				buildDate += ' - ' + newDate.getDate() + ' ' + CMLW_Appointed_Times.monthNames[newDate.getMonth()];
 			}
 			
-			document.getElementById('CMLW-Title-Year').innerHTML = CMLW_Appointed_Times.date.getFullYear();
+			var cmlw_title_year = document.getElementById('CMLW-Title-Year');
+			
+			if(cmlw_title_year) {
+				cmlw_title_year.innerHTML = CMLW_Appointed_Times.date.getFullYear();
+			}
+			
 			
 			for (let x = 0; x < CMLW_Appointed_Times.getData.length; x++) {
 				
